@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="shoppinglist.shopping_list_app.views.fragments.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/go_to_SLFragment"
+            app:destination="@id/SLFragment" />
+        <action
+            android:id="@+id/go_to_productsListFragment"
+            app:destination="@id/productsListFragment" />
+        <action
+            android:id="@+id/go_to_shoppingHistoryFragment"
+            app:destination="@id/shoppingHistoryFragment" />
+        <action
+            android:id="@+id/go_to_shoppingStatisticsFragment"
+            app:destination="@id/shoppingStatisticsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SLFragment"
+        android:name="shoppinglist.shopping_list_app.views.fragments.SLFragment"
+        android:label="SLFragment" >
+        <action
+            android:id="@+id/go_to_SLPositionCreation"
+            app:destination="@id/SLPositionCreation" />
+        <action
+            android:id="@+id/go_to_SLPositionEdition"
+            app:destination="@id/SLPositionEdition" />
+        <action
+            android:id="@+id/go_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productsListFragment"
+        android:name="shoppinglist.shopping_list_app.views.fragments.ProductsListFragment"
+        android:label="ProductsListFragment" />
+    <fragment
+        android:id="@+id/shoppingHistoryFragment"
+        android:name="shoppinglist.shopping_list_app.views.fragments.ShoppingHistoryFragment"
+        android:label="ShoppingHistoryFragment" />
+    <fragment
+        android:id="@+id/shoppingStatisticsFragment"
+        android:name="shoppinglist.shopping_list_app.views.fragments.ShoppingStatisticsFragment"
+        android:label="ShoppingStatisticsFragment" />
+    <fragment
+        android:id="@+id/SLPositionCreation"
+        android:name="shoppinglist.shopping_list_app.views.fragments.SLPositionCreation"
+        android:label="SLPositionCreation" >
+        <action
+            android:id="@+id/back_to_SLFragment"
+            app:destination="@id/SLFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SLPositionEdition"
+        android:name="shoppinglist.shopping_list_app.views.fragments.SLPositionEdition"
+        android:label="SLPositionEdition" >
+        <argument
+            android:name="PositionID"
+            app:argType="long"
+            android:defaultValue="0L" />
+        <action
+            android:id="@+id/back_to_SLFragment"
+            app:destination="@id/SLFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="shoppinglist.shopping_list_app.views.fragments.CartFragment"
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/back_to_SLFragment"
+            app:destination="@id/SLFragment" />
+    </fragment>
+</navigation>

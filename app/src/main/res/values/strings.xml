@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">ShoppingListApp</string>
+    <string name="new_shopping_list">New shopping list</string>
+    <string name="products_list">Products list</string>
+    <string name="shopping_history">Shopping history</string>
+    <string name="shopping_statistics">Shopping statistics</string>
+    <string name="add_position">add_position</string>
+    <string name="add_product">add_product</string>
+    <string name="statistics">Statistics</string>
+    <string name="position_name">Position_name</string>
+    <string name="amount">Amount</string>
+    <string name="confirm">Confirm</string>
+    <string name="go_to_cart">go_to_cart</string>
 </resources>
