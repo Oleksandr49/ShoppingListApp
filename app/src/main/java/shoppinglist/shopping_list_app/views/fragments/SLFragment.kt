@@ -1,19 +1,21 @@
 package shoppinglist.shopping_list_app.views.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import shoppinglist.shopping_list_app.application.SLApp
 import shoppinglist.shopping_list_app.viewmodels.SLViewModel
+import shoppinglist.shopping_list_app.views.SwipeToDeleteCallback
 import shoppinglist.shopping_list_app.views.adapters.SLAdapter
 import shoppinglist.shopping_list_app.views.adapters.SLAdapterCallback
 import shoppinglist.shoppinglistapp.databinding.SLFragmentBinding
@@ -25,6 +27,7 @@ class SLFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by viewModels<SLViewModel> {viewModelFactory}
     private var viewBinding: SLFragmentBinding? = null
+    private var gestureReader: GestureDetector? = null
 
 
     override fun onAttach(context: Context) {
@@ -33,21 +36,31 @@ class SLFragment : Fragment() {
             .create().inject(this)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        gestureReader = GestureDetector(activity?.applicationContext, MyGestureListener())
         SLFragmentBinding.inflate(inflater, container, false).also { binding ->
 
                 binding.SLRecyclerView.adapter = SLAdapter().also { adapter ->
+
+
+
                     adapter.viewCallback = object: SLAdapterCallback {
-                        override fun removePosition(position:Long) {
+                        override fun movePositionToCart(position:Long) {
                             viewModel.movePositionToCart(position)
                         }
                         override fun editPosition(position:Long) {
                             SLFragmentDirections.goToSLPositionEdition(position).also { findNavController().navigate(it) }
                         }
+
+                        override fun removePosition(position: Long) {
+                            viewModel.deleteSLPosition(position)
+                        }
                     }
                     viewModel.currentList.observe(viewLifecycleOwner, {adapter.updateList(it)})
+                    gestureReader?.let { reader -> adapter.touchListener = View.OnTouchListener{v, event -> reader.onTouchEvent(event)}}
+                    ItemTouchHelper(SwipeToDeleteCallback(adapter)).also { helper -> helper.attachToRecyclerView(binding.SLRecyclerView) }
                 }
-
                 binding.SLRecyclerView.layoutManager = LinearLayoutManager(activity)
                 binding.SLRecyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                     override fun getItemOffsets(
@@ -80,5 +93,22 @@ class SLFragment : Fragment() {
         super.onDestroyView()
         viewBinding = null
         viewModel.dispose()
+    }
+}
+
+class MyGestureListener: GestureDetector.SimpleOnGestureListener(){
+    override fun onDown(e: MotionEvent?): Boolean {
+        Log.i("MotionEvent", "Down")
+        return true
+    }
+
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        Log.i("MotionEvent", "Fling")
+        return true
+    }
+
+    override fun onDoubleTap(e: MotionEvent?): Boolean {
+        Log.i("MotionEvent", "Double Tap")
+        return true
     }
 }

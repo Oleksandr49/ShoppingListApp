@@ -10,4 +10,5 @@
     <string name="amount">Amount</string>
     <string name="confirm">Confirm</string>
     <string name="go_to_cart">go_to_cart</string>
+    <string name="_0_00">0.00</string>
 </resources>

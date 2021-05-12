@@ -40,7 +40,7 @@ class SLViewModel @Inject constructor(private val getAllUseCase: GetAllUseCase<S
         }
     }
 
-    private fun deleteSLPosition(id:Long){
+    fun deleteSLPosition(id:Long){
         deletionUseCase.execute(id, BaseCompletableObserver({updateList()},{disposable -> compositeDisposable.add(disposable)}))
     }
 }
