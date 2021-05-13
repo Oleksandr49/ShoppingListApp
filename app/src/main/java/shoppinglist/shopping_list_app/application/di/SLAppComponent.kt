@@ -19,10 +19,11 @@ interface SLAppComponent {
     fun slPositionCreationComponent(): SLPositionCreationComponent.Factory
     fun slPositionEditionComponent(): SLPositionEditionComponent.Factory
     fun cartComponent(): CartComponent.Factory
+    fun productsComponent(): ProductsComponent.Factory
 }
 
 @Module(subcomponents = [SLComponent::class,
     SLPositionCreationComponent::class,
     SLPositionEditionComponent::class,
-    CartComponent::class])
+    CartComponent::class, ProductsComponent::class])
 object SubcomponentsModule

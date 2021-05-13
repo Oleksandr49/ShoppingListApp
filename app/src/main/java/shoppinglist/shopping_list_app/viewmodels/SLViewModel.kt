@@ -32,8 +32,8 @@ class SLViewModel @Inject constructor(private val getAllUseCase: GetAllUseCase<S
     }
 
     private fun createCartPosition(position: SLPosition){
-        CartPosition(productName = position.productName, productAmount = position.productAmount).also { cartPosition ->
-            position.ID?.let { ID ->
+        CartPosition(productName = "carted", productAmount = position.productAmount).also { cartPosition ->
+            position.positionID?.let { ID ->
                 creationUseCase.execute(cartPosition, BaseCompletableObserver({deleteSLPosition(ID)},
                     {disposable -> compositeDisposable.add(disposable)}))}
 

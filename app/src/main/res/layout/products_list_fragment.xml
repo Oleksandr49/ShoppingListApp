@@ -7,14 +7,14 @@
     android:background="@android:color/darker_gray">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/productsRecView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="154dp"
         tools:layout_editor_absoluteY="199dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
+        android:id="@+id/productsFAB"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginEnd="50dp"
@@ -22,7 +22,7 @@
         android:clickable="true"
         android:contentDescription="@string/add_product"
         android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+        app:layout_constraintBottom_toBottomOf="@+id/productsRecView"
+        app:layout_constraintEnd_toEndOf="@+id/productsRecView"
         app:srcCompat="@android:drawable/ic_input_add" />
 </androidx.constraintlayout.widget.ConstraintLayout>

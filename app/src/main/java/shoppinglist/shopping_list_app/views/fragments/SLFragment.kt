@@ -27,7 +27,6 @@ class SLFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by viewModels<SLViewModel> {viewModelFactory}
     private var viewBinding: SLFragmentBinding? = null
-    private var gestureReader: GestureDetector? = null
 
 
     override fun onAttach(context: Context) {
@@ -38,13 +37,8 @@ class SLFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        gestureReader = GestureDetector(activity?.applicationContext, MyGestureListener())
         SLFragmentBinding.inflate(inflater, container, false).also { binding ->
-
                 binding.SLRecyclerView.adapter = SLAdapter().also { adapter ->
-
-
-
                     adapter.viewCallback = object: SLAdapterCallback {
                         override fun movePositionToCart(position:Long) {
                             viewModel.movePositionToCart(position)
@@ -58,7 +52,6 @@ class SLFragment : Fragment() {
                         }
                     }
                     viewModel.currentList.observe(viewLifecycleOwner, {adapter.updateList(it)})
-                    gestureReader?.let { reader -> adapter.touchListener = View.OnTouchListener{v, event -> reader.onTouchEvent(event)}}
                     ItemTouchHelper(SwipeToDeleteCallback(adapter)).also { helper -> helper.attachToRecyclerView(binding.SLRecyclerView) }
                 }
                 binding.SLRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -96,19 +89,3 @@ class SLFragment : Fragment() {
     }
 }
 
-class MyGestureListener: GestureDetector.SimpleOnGestureListener(){
-    override fun onDown(e: MotionEvent?): Boolean {
-        Log.i("MotionEvent", "Down")
-        return true
-    }
-
-    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-        Log.i("MotionEvent", "Fling")
-        return true
-    }
-
-    override fun onDoubleTap(e: MotionEvent?): Boolean {
-        Log.i("MotionEvent", "Double Tap")
-        return true
-    }
-}

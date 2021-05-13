@@ -29,4 +29,8 @@ object LocalDatabaseModule {
     @Singleton
     @Provides
     fun CartPositionDAO(dataBase: BaseDataBase) = dataBase.CartPositionDAO()
+
+    @Singleton
+    @Provides
+    fun productsDAO(dataBase: BaseDataBase) = dataBase.productDAO()
 }

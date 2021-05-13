@@ -9,6 +9,6 @@ class SwipeToDeleteCallback(val adapter:SLAdapter): ItemTouchHelper.SimpleCallba
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) = true
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        adapter.itemsList[viewHolder.adapterPosition].ID?.let { adapter.viewCallback?.removePosition(it) }
+        adapter.itemsList[viewHolder.adapterPosition].positionID?.let { adapter.viewCallback?.removePosition(it) }
     }
 }

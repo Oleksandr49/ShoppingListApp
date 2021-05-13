@@ -2,7 +2,6 @@ package shoppinglist.shopping_list_app.views.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -14,8 +13,6 @@ import shoppinglist.shoppinglistapp.R
 
 class SLAdapter : BaseAdapter<SLPositionViewHolder, SLPosition, SLAdapterCallback>() {
 
-    var touchListener: View.OnTouchListener? = null
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SLPositionViewHolder {
         LayoutInflater.from(parent.context).also {
             return SLPositionViewHolder(it.inflate(R.layout.s_l_position, parent, false)) }
@@ -24,10 +21,10 @@ class SLAdapter : BaseAdapter<SLPositionViewHolder, SLPosition, SLAdapterCallbac
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: SLPositionViewHolder, position: Int) {
         holder.productName.text = itemsList[position].productName
-        holder.productName.setOnClickListener { itemsList[holder.adapterPosition].ID?.let { position ->
+        holder.productName.setOnClickListener { itemsList[holder.adapterPosition].positionID?.let { position ->
             viewCallback?.editPosition(position) } }
         holder.productAmount.text = itemsList[position].productAmount.toString()
-        holder.inCart.setOnClickListener { itemsList[holder.adapterPosition].ID?.let { position -> viewCallback?.movePositionToCart(position)
+        holder.inCart.setOnClickListener { itemsList[holder.adapterPosition].positionID?.let { position -> viewCallback?.movePositionToCart(position)
             }
         }
     }
@@ -42,7 +39,7 @@ private class SLDiffUtillCallback(oldList: List<SLPosition>, newList: List<SLPos
     BaseDiffUtillCallback<SLPosition>(oldList, newList) {
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition].ID == newList[newItemPosition].ID
+        oldList[oldItemPosition].positionID == newList[newItemPosition].positionID
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
         (areItemsTheSame(oldItemPosition, newItemPosition) && areNamesTheSame(oldItemPosition, newItemPosition))

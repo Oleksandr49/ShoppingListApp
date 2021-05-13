@@ -38,7 +38,7 @@ class SLPositionEdition: Fragment() {
                 binding.PositionName.setText(position.productName)
                 binding.Amount.setText(position.productAmount.toString())
                 binding.creationConfirmation.setOnClickListener {
-                    SLPosition(ID = args.PositionID, productName = binding.PositionName.text.toString(),
+                    SLPosition(positionID = args.PositionID, productName = binding.PositionName.text.toString(),
                     productAmount = binding.Amount.text.toString().toDouble()).also { viewModel.updatePosition(it) }
                     SLPositionEditionDirections.backToSLFragment().also { findNavController().navigate(it) }
                 }
