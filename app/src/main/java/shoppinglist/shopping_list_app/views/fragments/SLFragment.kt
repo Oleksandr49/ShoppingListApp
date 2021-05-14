@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import shoppinglist.shopping_list_app.application.SLApp
 import shoppinglist.shopping_list_app.viewmodels.SLViewModel
-import shoppinglist.shopping_list_app.views.SwipeToDeleteCallback
+import shoppinglist.shopping_list_app.views.adapters.SwipeToDeleteCallback
 import shoppinglist.shopping_list_app.views.adapters.SLAdapter
 import shoppinglist.shopping_list_app.views.adapters.SLAdapterCallback
 import shoppinglist.shoppinglistapp.databinding.SLFragmentBinding

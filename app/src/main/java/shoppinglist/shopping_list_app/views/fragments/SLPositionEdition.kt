@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import shoppinglist.shopping_list_app.application.SLApp
-import shoppinglist.shopping_list_app.model.dataModels.SLPosition
+import shoppinglist.shopping_list_app.model.dataModels.ListItem
 import shoppinglist.shopping_list_app.viewmodels.SLPositionEditionViewModel
 import shoppinglist.shoppinglistapp.databinding.SLPositionOperationsBinding
 import javax.inject.Inject
@@ -35,15 +35,18 @@ class SLPositionEdition: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         SLPositionOperationsBinding.inflate(inflater, container, false).also { binding ->
             viewModel.currentPosition.observe(viewLifecycleOwner,{position ->
-                binding.PositionName.setText(position.productName)
-                binding.Amount.setText(position.productAmount.toString())
+                binding.PositionName.setText(position.name)
+                binding.Amount.setText(position.amount.toString())
+                /*
                 binding.creationConfirmation.setOnClickListener {
-                    SLPosition(positionID = args.PositionID, productName = binding.PositionName.text.toString(),
-                    productAmount = binding.Amount.text.toString().toDouble()).also { viewModel.updatePosition(it) }
+                    ListItem(id = args.positionID, name = binding.PositionName.text.toString(),
+                    amount = binding.Amount.text.toString().toDouble(), productId = 1L).also { viewModel.updatePosition(it) }
                     SLPositionEditionDirections.backToSLFragment().also { findNavController().navigate(it) }
                 }
+
+                 */
             })
-            viewModel.getPosition(args.PositionID)
+            //viewModel.getPosition(args.positionID)
             return binding.root
         }
     }

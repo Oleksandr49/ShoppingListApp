@@ -1,17 +1,13 @@
 package shoppinglist.shopping_list_app.model.usecases
 
-import android.util.Log
 import io.reactivex.SingleObserver
-import shoppinglist.shopping_list_app.model.repository.BaseRepository
+import shoppinglist.shopping_list_app.model.repository.base.BaseDao
+import shoppinglist.shopping_list_app.model.repository.base.BaseRepository
+import shoppinglist.shopping_list_app.model.usecases.base.SingleUseCase
 import javax.inject.Inject
 
-class GetOneUseCase <R: BaseRepository<D>, D>@Inject constructor(private val repository:R): BaseUseCase<Long, SingleObserver<D>>() {
+class GetOneUseCase <E,D: BaseDao<E>,R: BaseRepository<E,D>>@Inject constructor(private val repository:R): SingleUseCase<E>() {
 
-    override fun execute(param: Long?, observer: SingleObserver<D>) {
-        param?.let { repository.get(it)
-                .subscribeOn(threadExecutorScheduler)
-                .observeOn(postExecutionThreadScheduler)
-                .subscribe(observer)
-        }
-    }
+    fun getOne(id:Long, observer:SingleObserver<E>) = repository.get(id).also { execute(it, observer) }
+
 }

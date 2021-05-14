@@ -7,15 +7,16 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import shoppinglist.shopping_list_app.model.dataModels.SLPosition
-import shoppinglist.shopping_list_app.model.repository.SLPositionRepository
+import shoppinglist.shopping_list_app.model.dataModels.BaseItem
+import shoppinglist.shopping_list_app.model.dataModels.ListItem
+import shoppinglist.shopping_list_app.model.repository.ListItemRep
 import javax.inject.Inject
 
-class SLPositionEditionViewModel @Inject constructor(private val repository: SLPositionRepository): ViewModel() {
+class SLPositionEditionViewModel @Inject constructor(private val repository: ListItemRep): ViewModel() {
 
-    var currentPosition = MutableLiveData<SLPosition>()
+    var currentPosition = MutableLiveData<BaseItem>()
 
-    fun updatePosition(position: SLPosition){
+    fun updatePosition(position: ListItem){
         repository.update(position).
         subscribeOn(Schedulers.io()).
         observeOn(AndroidSchedulers.mainThread()).
@@ -33,11 +34,11 @@ class SLPositionEditionViewModel @Inject constructor(private val repository: SLP
 
     fun getPosition(id:Long){
         repository.get(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : SingleObserver<SLPosition>{
+            .subscribe(object : SingleObserver<BaseItem>{
                 override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onSuccess(t: SLPosition) {
+                override fun onSuccess(t: BaseItem) {
                     currentPosition.postValue(t)
                 }
 

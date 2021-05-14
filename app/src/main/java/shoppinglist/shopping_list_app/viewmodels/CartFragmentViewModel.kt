@@ -1,25 +1,30 @@
 package shoppinglist.shopping_list_app.viewmodels
 
 import androidx.lifecycle.MutableLiveData
-import shoppinglist.shopping_list_app.model.dataModels.CartPosition
-import shoppinglist.shopping_list_app.model.repository.CartPositionsRepository
-import shoppinglist.shopping_list_app.model.usecases.BaseCompletableObserver
-import shoppinglist.shopping_list_app.model.usecases.BaseSingleObserver
+import io.reactivex.SingleObserver
+import shoppinglist.shopping_list_app.model.dataModels.CartItem
+import shoppinglist.shopping_list_app.model.repository.CartDao
+import shoppinglist.shopping_list_app.model.repository.CartItemDao
+import shoppinglist.shopping_list_app.model.repository.CartItemsRep
+import shoppinglist.shopping_list_app.model.repository.CartRep
+import shoppinglist.shopping_list_app.model.usecases.base.BaseCompletableObserver
+import shoppinglist.shopping_list_app.model.usecases.base.BaseSingleObserver
 import shoppinglist.shopping_list_app.model.usecases.DeleteAllUseCase
 import shoppinglist.shopping_list_app.model.usecases.GetAllUseCase
+import shoppinglist.shopping_list_app.model.usecases.base.BaseUseCase
 import javax.inject.Inject
 
-class CartFragmentViewModel @Inject constructor(private val getAllUseCase: GetAllUseCase<CartPositionsRepository, CartPosition>,
-                                                private val deleteAllUseCase: DeleteAllUseCase<CartPositionsRepository, CartPosition>): BaseViewModel() {
+class CartFragmentViewModel @Inject constructor(private val getAllUseCase: GetAllUseCase<CartItem, CartItemDao, CartItemsRep>,
+                                                private val deleteAllUseCase: DeleteAllUseCase<CartItem, CartItemDao, CartItemsRep>): BaseViewModel() {
 
-    var currentList = MutableLiveData<List<CartPosition>>()
+    var currentList = MutableLiveData<List<CartItem>>()
 
     fun updateList(){
-        getAllUseCase.execute(observer = BaseSingleObserver({
+        getAllUseCase.getAll(observer = BaseSingleObserver({
             currentList.postValue(it) },{compositeDisposable.add(it) }))
     }
 
     fun confirmCart(){
-        deleteAllUseCase.execute(observer = BaseCompletableObserver({updateList()},{compositeDisposable.add(it)}))
+        deleteAllUseCase.deleteAll(observer = BaseCompletableObserver({updateList()},{compositeDisposable.add(it)}))
     }
 }
