@@ -1,6 +1,5 @@
 package shoppinglist.shopping_list_app.views.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -17,15 +16,16 @@ class SLAdapter : BaseAdapter<SLPositionViewHolder, ListItem, SLAdapterCallback>
             return SLPositionViewHolder(it.inflate(R.layout.s_l_position, parent, false)) }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: SLPositionViewHolder, position: Int) {
-        holder.productName.text = itemsList[position].name
-       // holder.productName.setOnClickListener { itemsList[holder.adapterPosition].id.let { position ->
-         //   viewCallback?.editPosition(position) } }
+        val string = itemsList[position].name + " ID: " + itemsList[position].productId
+        holder.productName.text = string
+        holder.productName.setOnClickListener { itemsList[holder.adapterPosition].id?.let { positionID ->
+            viewCallback?.editPosition(positionID) } }
         holder.productAmount.text = itemsList[position].amount.toString()
-        //holder.inCart.setOnClickListener { itemsList[holder.adapterPosition].id.let { position -> viewCallback?.movePositionToCart(position)
-          //  }
-        //}
+        holder.inCart.setOnClickListener { itemsList[holder.adapterPosition].id?.let { positionID ->
+            viewCallback?.movePositionToCart(positionID)
+            }
+        }
     }
 
     override fun updateList(updatedList: List<ListItem>) {

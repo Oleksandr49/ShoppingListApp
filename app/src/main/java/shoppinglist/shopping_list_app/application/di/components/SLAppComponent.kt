@@ -4,14 +4,14 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
-import shoppinglist.shopping_list_app.application.di.modules.ViewModelBuilderModule
-import shoppinglist.shopping_list_app.application.di.modules.LocalDatabaseModule
+import shoppinglist.shopping_list_app.application.di.modules.*
 import javax.inject.Singleton
 
 @Singleton
 @Component (modules = [ViewModelBuilderModule::class,
     LocalDatabaseModule::class,
-    SubcomponentsModule::class])
+    SubcomponentsModule::class,
+    UseCasesModule::class])
 interface SLAppComponent {
 
     @Component.Factory
@@ -29,5 +29,11 @@ interface SLAppComponent {
 @Module(subcomponents = [SLComponent::class,
     SLPositionCreationComponent::class,
     SLPositionEditionComponent::class,
-    CartComponent::class, ProductsComponent::class])
+    CartComponent::class,
+    ProductsComponent::class])
 object SubcomponentsModule
+
+@Module(includes = [ListItemUseCasesModule::class,
+    BaseProductUseCasesModule::class,
+    CartItemUseCasesModule::class])
+object UseCasesModule

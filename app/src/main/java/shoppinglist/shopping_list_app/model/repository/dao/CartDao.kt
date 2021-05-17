@@ -1,4 +1,4 @@
-package shoppinglist.shopping_list_app.model.repository
+package shoppinglist.shopping_list_app.model.repository.dao
 
 import androidx.room.*
 import io.reactivex.Completable
@@ -10,14 +10,10 @@ import shoppinglist.shopping_list_app.model.repository.base.BaseDao
 @Dao
 interface CartDao: BaseDao<Cart> {
 
-    @Insert
-     override fun create(param: Cart): Completable
     @Query("DELETE FROM Carts WHERE cartId = :id")
      override  fun delete(id: Long): Completable
     @Query("DELETE FROM Carts")
      override  fun deleteAll(): Completable
-    @Update
-     override fun  update(updated: Cart): Completable
     @Query("SELECT * FROM Carts WHERE cartId = :id")
      override  fun get(id: Long): Single<Cart>
     @Query("SELECT * FROM Carts")

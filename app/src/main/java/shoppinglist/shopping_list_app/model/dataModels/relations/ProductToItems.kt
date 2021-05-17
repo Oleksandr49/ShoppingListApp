@@ -6,7 +6,7 @@ import shoppinglist.shopping_list_app.model.dataModels.BaseProduct
 import shoppinglist.shopping_list_app.model.dataModels.ListItem
 
 class ProductToItems(@Embedded
-                     var product:BaseProduct,
+                     val product:BaseProduct,
                      @Relation(parentColumn = "productID", entityColumn = "productID")
-                     var items: List<ListItem>) {
+                     val items: List<ListItem>) {
 }

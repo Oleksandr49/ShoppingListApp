@@ -5,5 +5,5 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(tableName = "Carts")
-class Cart(@PrimaryKey(autoGenerate = true)var cartId:Long? = null, var date:String){
+class Cart(@PrimaryKey(autoGenerate = true)val cartId:Long? = null, var date:String){
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
+import shoppinglist.shopping_list_app.model.usecases.base.BaseUseCase
 import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.reflect.KClass

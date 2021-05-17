@@ -1,12 +1,16 @@
 package shoppinglist.shopping_list_app.model.repository.base
 
-abstract class BaseRepository<T, D:BaseDao<T>>(val dao:D) {
+import io.reactivex.Completable
+import io.reactivex.Maybe
+import io.reactivex.Single
 
-    fun create(param:T) = dao.create(param)
-    fun delete(id:Long) = dao.delete(id)
-    fun update(updated:T) = dao.update(updated)
-    fun get(id:Long) = dao.get(id)
-    fun getAll() = dao.getAll()
-    fun deleteAll() = dao.deleteAll()
+interface BaseRepository<T> {
+
+    fun create(param:T) : Single<Long>
+    fun delete(id:Long) : Completable
+    fun update(updated:T) : Completable
+    fun get(id:Long) : Single<T>
+    fun getAll() : Single<List<T>>
+    fun deleteAll() : Completable
 
 }

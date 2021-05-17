@@ -1,6 +1,5 @@
 package shoppinglist.shopping_list_app.views.fragments
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
@@ -34,7 +33,6 @@ class SLFragment : Fragment() {
             .create().inject(this)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         SLFragmentBinding.inflate(inflater, container, false).also { binding ->
                 binding.SLRecyclerView.adapter = SLAdapter().also { adapter ->
