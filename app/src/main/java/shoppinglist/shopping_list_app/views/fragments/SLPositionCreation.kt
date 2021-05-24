@@ -2,6 +2,7 @@ package shoppinglist.shopping_list_app.views.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import shoppinglist.shopping_list_app.application.SLApp
-import shoppinglist.shopping_list_app.model.dataModels.BaseProduct
 import shoppinglist.shopping_list_app.viewmodels.SLPositionCreationViewModel
 import shoppinglist.shopping_list_app.views.base.BaseFragment
 import shoppinglist.shopping_list_app.views.dialogs.ConfirmationDialog
@@ -30,11 +30,13 @@ class SLPositionCreation: BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         SLPositionOperationsBinding.inflate(inflater, container, false).also {binding ->
-            val productList = ArrayList<String>()
-            viewModel.productList.observe(viewLifecycleOwner, { list -> for(item in list) productList.add(item.name)})
+            val productNamesList = ArrayList<String>()
+            viewModel.productList.observe(viewLifecycleOwner, { list ->
+                Log.i("ProcessTag", "${list.size} existing products loaded")
+                for(item in list) productNamesList.add(item.name)})
             viewModel.loadProducts()
             activity?.let {
-                binding.PositionName.setAdapter(ArrayAdapter(it.applicationContext, android.R.layout.simple_dropdown_item_1line, productList))
+                binding.PositionName.setAdapter(ArrayAdapter(it.applicationContext, android.R.layout.simple_dropdown_item_1line, productNamesList))
             }
             binding.creationConfirmation.setOnClickListener {
                 showDialog(ConfirmationDialog {

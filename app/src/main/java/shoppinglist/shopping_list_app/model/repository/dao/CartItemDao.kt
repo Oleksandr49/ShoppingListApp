@@ -18,4 +18,6 @@ interface CartItemDao: BaseDao<CartItem> {
      override fun get(id: Long): Single<CartItem>
     @Query("SELECT * FROM CartItems")
      override fun getAll(): Single<List<CartItem>>
+     @Query("SELECT * FROM CartItems WHERE cartId = 0")
+     fun getAllWithoutCart(): Single<List<CartItem>>
 }

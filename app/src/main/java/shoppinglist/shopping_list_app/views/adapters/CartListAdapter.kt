@@ -13,7 +13,7 @@ class CartListAdapter: BaseAdapter<CartPositionViewHolder, CartItem, SLAdapterCa
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartPositionViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return CartPositionViewHolder(inflater.inflate(R.layout.s_l_position, parent, false))
+        return CartPositionViewHolder(inflater.inflate(R.layout.cart_position_view_holder, parent, false))
     }
 
     override fun onBindViewHolder(holder: CartPositionViewHolder, position: Int) {

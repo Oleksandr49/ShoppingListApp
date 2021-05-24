@@ -17,9 +17,10 @@ class SLAdapter : BaseAdapter<SLPositionViewHolder, ListItem, SLAdapterCallback>
     }
 
     override fun onBindViewHolder(holder: SLPositionViewHolder, position: Int) {
-        holder.productName.text = itemsList[position].name
-        holder.productAmount.text = itemsList[position].amount.toString()
-        itemsList[holder.adapterPosition].id?.let{ positionId ->
+        val holderItem = itemsList[position]
+        holder.productName.text = holderItem.name
+        holder.productAmount.text = holderItem.amount.toString()
+        holderItem.id?.let{ positionId ->
             holder.productName.setOnClickListener { viewCallback?.editPosition(positionId)}
             holder.inCart.setOnClickListener { viewCallback?.movePositionToCart(positionId)}
         }

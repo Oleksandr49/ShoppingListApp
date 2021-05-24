@@ -13,7 +13,7 @@ class ProductsAdapter: BaseAdapter<ProductViewHolder, BaseProduct, ProductAdapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ProductViewHolder(inflater.inflate(R.layout.s_l_position, parent, false))
+        return ProductViewHolder(inflater.inflate(R.layout.product_view_holder, parent, false))
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {

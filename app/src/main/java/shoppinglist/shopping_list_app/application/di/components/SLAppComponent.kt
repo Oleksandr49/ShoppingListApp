@@ -35,5 +35,6 @@ object SubcomponentsModule
 
 @Module(includes = [ListItemUseCasesModule::class,
     BaseProductUseCasesModule::class,
-    CartItemUseCasesModule::class])
+    CartItemUseCasesModule::class,
+    CartUseCasesModule::class])
 object UseCasesModule
