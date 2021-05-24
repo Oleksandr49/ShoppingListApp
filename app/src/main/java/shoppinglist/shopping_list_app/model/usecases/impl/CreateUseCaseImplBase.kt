@@ -9,7 +9,6 @@ import javax.inject.Inject
 class CreateUseCaseImplBase <E,R: BaseRepository<E>> @Inject constructor(private val repository:R ): BaseSingleUseCase<Long>(), CreateUseCase<E> {
 
      override fun create(entity: E, observer: SingleObserver<Long>) {
-          repository.create(entity).also { execute(it, observer) }
+          repository.create(entity).also { executeNotObserve(it, observer) }
      }
-
 }

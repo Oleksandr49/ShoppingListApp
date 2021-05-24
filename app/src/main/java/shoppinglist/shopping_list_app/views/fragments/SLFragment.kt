@@ -1,31 +1,30 @@
 package shoppinglist.shopping_list_app.views.fragments
 
 import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import shoppinglist.shopping_list_app.application.SLApp
 import shoppinglist.shopping_list_app.viewmodels.SLViewModel
-import shoppinglist.shopping_list_app.views.adapters.SwipeToDeleteCallback
 import shoppinglist.shopping_list_app.views.adapters.SLAdapter
 import shoppinglist.shopping_list_app.views.adapters.SLAdapterCallback
+import shoppinglist.shopping_list_app.views.adapters.SwipeToDeleteCallback
+import shoppinglist.shopping_list_app.views.base.BaseFragment
+import shoppinglist.shopping_list_app.views.base.BaseItemDecoration
 import shoppinglist.shoppinglistapp.databinding.SLFragmentBinding
 import javax.inject.Inject
 
-class SLFragment : Fragment() {
+class SLFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by viewModels<SLViewModel> {viewModelFactory}
+    private val viewModel by viewModels<SLViewModel> { viewModelFactory }
     private var viewBinding: SLFragmentBinding? = null
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -33,45 +32,25 @@ class SLFragment : Fragment() {
             .create().inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        SLFragmentBinding.inflate(inflater, container, false).also { binding ->
-                binding.SLRecyclerView.adapter = SLAdapter().also { adapter ->
-                    adapter.viewCallback = object: SLAdapterCallback {
-                        override fun movePositionToCart(position:Long) {
-                            viewModel.movePositionToCart(position)
-                        }
-                        override fun editPosition(position:Long) {
-                            SLFragmentDirections.goToSLPositionEdition(position).also { findNavController().navigate(it) }
-                        }
-
-                        override fun removePosition(position: Long) {
-                            viewModel.deleteSLPosition(position)
-                        }
-                    }
-                    viewModel.currentList.observe(viewLifecycleOwner, {adapter.updateList(it)})
-                    ItemTouchHelper(SwipeToDeleteCallback(adapter)).also { helper -> helper.attachToRecyclerView(binding.SLRecyclerView) }
-                }
-                binding.SLRecyclerView.layoutManager = LinearLayoutManager(activity)
-                binding.SLRecyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-                    override fun getItemOffsets(
-                        outRect: Rect,
-                        view: View,
-                        parent: RecyclerView,
-                        state: RecyclerView.State
-                    ) {
-                        super.getItemOffsets(outRect, view, parent, state)
-                        outRect.left = 10
-                        outRect.right = 10
-                        outRect.bottom = 15
-                        outRect.top = 15
-                    }
-                })
-                binding.goToCartBtn.setOnClickListener {SLFragmentDirections.goToCartFragment().also { findNavController().navigate(it) }}
-                binding.addPosition.setOnClickListener { SLFragmentDirections.goToSLPositionCreation()
-                    .also { findNavController().navigate(it) } }
-                viewModel.updateList()
-                return binding.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewBinding = SLFragmentBinding.inflate(inflater, container, false)
+        viewBinding?.let { binding ->
+            val adapter = getAdapter()
+            val touchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter))
+            binding.SLRecyclerView.adapter = adapter
+            touchHelper.attachToRecyclerView(binding.SLRecyclerView)
+            binding.SLRecyclerView.layoutManager = LinearLayoutManager(activity)
+            binding.SLRecyclerView.addItemDecoration(BaseItemDecoration())
+            binding.goToCartBtn.setOnClickListener { navigateTo(SLFragmentDirections.goToCartFragment()) }
+            binding.addPosition.setOnClickListener { navigateTo(SLFragmentDirections.goToSLPositionCreation()) }
+            viewModel.updateList()
+            return binding.root
         }
+        return null
     }
 
     override fun onResume() {
@@ -83,6 +62,17 @@ class SLFragment : Fragment() {
         super.onDestroyView()
         viewBinding = null
         viewModel.dispose()
+    }
+
+    private fun getAdapter(): SLAdapter{
+        val adapter = SLAdapter()
+        viewModel.currentList.observe(viewLifecycleOwner, {adapter.updateList(it)})
+        adapter.viewCallback = object: SLAdapterCallback {
+            override fun movePositionToCart(position:Long) { viewModel.movePositionToCart(position) }
+            override fun editPosition(position:Long) { navigateTo(SLFragmentDirections.goToSLPositionEdition(position)) }
+            override fun removePosition(position: Long) { viewModel.deleteSLPosition(position) }
+        }
+     return adapter
     }
 }
 

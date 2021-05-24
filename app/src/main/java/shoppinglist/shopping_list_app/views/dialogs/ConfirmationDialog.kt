@@ -9,11 +9,10 @@ import androidx.fragment.app.DialogFragment
 class ConfirmationDialog(val callback: ()-> Unit): DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-         AlertDialog.Builder(activity).also {
-             it.setMessage("Confirm please")
-                 .setPositiveButton("Confirm") { _: DialogInterface?, _: Int -> callback() }
-                 .setNegativeButton("Cancel") { dialog: DialogInterface, _: Int -> dialog.dismiss() }
-             return it.create()
-         }
+        val builder = AlertDialog.Builder(activity)
+        val dialog = builder.setMessage("Confirm please")
+                        .setPositiveButton("Confirm") { _: DialogInterface?, _: Int -> callback() }
+                        .setNegativeButton("Cancel") { dialog: DialogInterface, _: Int -> dialog.dismiss() }
+        return dialog.create()
     }
 }

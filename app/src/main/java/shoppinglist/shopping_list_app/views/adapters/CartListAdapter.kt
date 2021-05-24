@@ -12,8 +12,8 @@ import shoppinglist.shoppinglistapp.R
 class CartListAdapter: BaseAdapter<CartPositionViewHolder, CartItem, SLAdapterCallback>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartPositionViewHolder {
-        LayoutInflater.from(parent.context).also {
-            return CartPositionViewHolder(it.inflate(R.layout.cart_position_view_holder, parent, false)) }
+        val inflater = LayoutInflater.from(parent.context)
+        return CartPositionViewHolder(inflater.inflate(R.layout.s_l_position, parent, false))
     }
 
     override fun onBindViewHolder(holder: CartPositionViewHolder, position: Int) {
@@ -22,12 +22,13 @@ class CartListAdapter: BaseAdapter<CartPositionViewHolder, CartItem, SLAdapterCa
     }
 
     override fun updateList(updatedList: List<CartItem>) {
-        DiffUtil.calculateDiff(CartDiffUtillCallback(itemsList, updatedList)).also {itemsList = updatedList
-            it.dispatchUpdatesTo(this)}
+        val listUpdates = DiffUtil.calculateDiff(CartDiffUtilCallback(itemsList, updatedList))
+        itemsList = updatedList
+        listUpdates.dispatchUpdatesTo(this)
     }
 }
 
-private class CartDiffUtillCallback(oldList: List<CartItem>, newList: List<CartItem>):
+private class CartDiffUtilCallback(oldList: List<CartItem>, newList: List<CartItem>):
     BaseDiffUtillCallback<CartItem>(oldList, newList) {
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =

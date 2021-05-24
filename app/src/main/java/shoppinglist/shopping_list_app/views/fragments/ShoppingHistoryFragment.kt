@@ -13,7 +13,8 @@ class ShoppingHistoryFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = ShoppingHistoryFragmentBinding.inflate(inflater, container, false)
-        return viewBinding?.root
+        viewBinding?.let {binding ->  return binding.root }
+        return null
     }
 
     override fun onDestroyView() {

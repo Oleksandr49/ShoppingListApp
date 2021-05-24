@@ -10,40 +10,23 @@ import io.reactivex.schedulers.Schedulers
 import shoppinglist.shopping_list_app.model.dataModels.BaseItem
 import shoppinglist.shopping_list_app.model.dataModels.ListItem
 import shoppinglist.shopping_list_app.model.repository.ListItemRep
+import shoppinglist.shopping_list_app.model.usecases.base.BaseCompletableObserver
+import shoppinglist.shopping_list_app.model.usecases.base.BaseSingleObserver
+import shoppinglist.shopping_list_app.model.usecases.base.ReadUseCase
+import shoppinglist.shopping_list_app.model.usecases.base.UpdateUseCase
 import javax.inject.Inject
 
-class SLPositionEditionViewModel @Inject constructor(private val repository: ListItemRep): ViewModel() {
+class SLPositionEditionViewModel @Inject constructor(private val readUseCase: ReadUseCase<ListItem>,
+                                                     private val updateUseCase: UpdateUseCase<ListItem>): BaseViewModel() {
 
-    var currentPosition = MutableLiveData<BaseItem>()
+    var currentPosition = MutableLiveData<ListItem>()
 
     fun updatePosition(position: ListItem){
-        repository.update(position).
-        subscribeOn(Schedulers.io()).
-        observeOn(AndroidSchedulers.mainThread()).
-        subscribe(object:CompletableObserver{
-            override fun onSubscribe(d: Disposable) {
-            }
-
-            override fun onComplete() {
-            }
-
-            override fun onError(e: Throwable) {
-            }
-        })
+        updateUseCase.update(position, BaseCompletableObserver({}, {disposable -> compositeDisposable.add(disposable) }))
     }
 
     fun getPosition(id:Long){
-        repository.get(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : SingleObserver<BaseItem>{
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onSuccess(t: BaseItem) {
-                    currentPosition.postValue(t)
-                }
-
-                override fun onError(e: Throwable) {
-                }
-            })
+        readUseCase.read(id, BaseSingleObserver({item -> currentPosition.postValue(item)},{disposable -> compositeDisposable.add(disposable)}))
     }
+
 }

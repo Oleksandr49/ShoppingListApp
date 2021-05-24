@@ -12,29 +12,27 @@ import shoppinglist.shoppinglistapp.R
 class SLAdapter : BaseAdapter<SLPositionViewHolder, ListItem, SLAdapterCallback>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SLPositionViewHolder {
-        LayoutInflater.from(parent.context).also {
-            return SLPositionViewHolder(it.inflate(R.layout.s_l_position, parent, false)) }
+        val inflater = LayoutInflater.from(parent.context)
+        return SLPositionViewHolder(inflater.inflate(R.layout.s_l_position, parent, false))
     }
 
     override fun onBindViewHolder(holder: SLPositionViewHolder, position: Int) {
-        val string = itemsList[position].name + " ID: " + itemsList[position].productId
-        holder.productName.text = string
-        holder.productName.setOnClickListener { itemsList[holder.adapterPosition].id?.let { positionID ->
-            viewCallback?.editPosition(positionID) } }
+        holder.productName.text = itemsList[position].name
         holder.productAmount.text = itemsList[position].amount.toString()
-        holder.inCart.setOnClickListener { itemsList[holder.adapterPosition].id?.let { positionID ->
-            viewCallback?.movePositionToCart(positionID)
-            }
+        itemsList[holder.adapterPosition].id?.let{ positionId ->
+            holder.productName.setOnClickListener { viewCallback?.editPosition(positionId)}
+            holder.inCart.setOnClickListener { viewCallback?.movePositionToCart(positionId)}
         }
     }
 
     override fun updateList(updatedList: List<ListItem>) {
-        DiffUtil.calculateDiff(SLDiffUtillCallback(itemsList, updatedList)).also {itemsList = updatedList
-            it.dispatchUpdatesTo(this)}
+        val listUpdates = DiffUtil.calculateDiff(SLDiffUtilCallback(itemsList, updatedList))
+        itemsList = updatedList
+        listUpdates.dispatchUpdatesTo(this)
     }
 }
 
-private class SLDiffUtillCallback(oldList: List<ListItem>, newList: List<ListItem>):
+private class SLDiffUtilCallback(oldList: List<ListItem>, newList: List<ListItem>):
     BaseDiffUtillCallback<ListItem>(oldList, newList) {
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =

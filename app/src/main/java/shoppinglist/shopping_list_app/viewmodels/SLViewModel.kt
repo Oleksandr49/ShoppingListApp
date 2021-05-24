@@ -23,21 +23,13 @@ class SLViewModel @Inject constructor(private val readUseCase: ReadUseCase<ListI
     }
 
     private fun getPosition(id:Long) {
-        readUseCase.read(id,
-            BaseSingleObserver({ param -> createCartPosition(param) },
-                { disposable -> compositeDisposable.add(disposable) })
-        )
+        readUseCase.read(id, BaseSingleObserver({ param -> createCartPosition(param) }, { disposable -> compositeDisposable.add(disposable) }))
     }
 
     private fun createCartPosition(position: ListItem){
-        /*
-        CartItem(name = "carted", amount = position.amount).also { cartPosition ->
-            position.positionID?.let { ID ->
-                creationUseCase.execute(cartPosition, BaseCompletableObserver({deleteSLPosition(ID)},
-                    {disposable -> compositeDisposable.add(disposable)}))}
-
-        }
-         */
+        val cartPosition = CartItem(name = position.name, amount = position.amount, productId = position.productId)
+        position.id?.let {
+            createUseCase.create(cartPosition, BaseSingleObserver({deleteSLPosition(it)},{disposable -> compositeDisposable.add(disposable)})) }
     }
 
     fun deleteSLPosition(id:Long){

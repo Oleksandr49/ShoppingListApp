@@ -59,13 +59,13 @@
         android:id="@+id/SLPositionEdition"
         android:name="shoppinglist.shopping_list_app.views.fragments.SLPositionEdition"
         android:label="SLPositionEdition" >
-        <argument
-            android:name="PositionID"
-            app:argType="long"
-            android:defaultValue="0L" />
         <action
             android:id="@+id/back_to_SLFragment"
             app:destination="@id/SLFragment" />
+        <argument
+            android:name="positionID"
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"

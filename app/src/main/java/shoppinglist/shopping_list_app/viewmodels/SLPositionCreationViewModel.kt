@@ -11,21 +11,41 @@ import javax.inject.Inject
 
 class SLPositionCreationViewModel @Inject constructor(private val createListItemUseCase: CreateUseCase<ListItem>,
                                                       private val createBaseProductUseCase: CreateUseCase<BaseProduct>,
-                                                      private val readUseCase: ReadUseCase<BaseProduct> ): BaseViewModel(){
+                                                      private val readUseCase: ReadUseCase<BaseProduct>): BaseViewModel(){
 
-    val currentList = MutableLiveData<List<BaseProduct>>()
-    val createdProduct = MutableLiveData<Long>()
+    val productList = MutableLiveData<List<BaseProduct>>()
 
     fun create(name:String, amount:Double){
-        ListItem(name = name, amount = amount, productId = 1L).also {
-            createListItemUseCase.create(it, BaseSingleObserver({ id -> Log.i("ADDED", "ID:$id")},{ disposable -> compositeDisposable.add(disposable)}))
-        }
-        BaseProduct(name = name).also {
-            createBaseProductUseCase.create(it, BaseSingleObserver({ id -> Log.i("ADDED", "ID:$id")},{ disposable -> compositeDisposable.add(disposable)}))
-        }
+        val product = productExist(name)
+            if
+                (product != null) createListItem(product, amount)
+            else
+                createProduct(name, amount)
     }
 
     fun loadProducts(){
-        readUseCase.readAll(observer = BaseSingleObserver({ list -> currentList.postValue(list)}, { disposable -> compositeDisposable.add(disposable)}))
+        readUseCase.readAll(observer = BaseSingleObserver({ list -> productList.postValue(list)}, { disposable -> compositeDisposable.add(disposable)}))
+    }
+
+    private fun createProduct(name:String, amount: Double){
+        val product = BaseProduct(name = name)
+        createBaseProductUseCase.create(product,
+                BaseSingleObserver({id -> val newProduct = BaseProduct(productID = id, name = name)
+                    createListItem(newProduct, amount)}, {disposable -> compositeDisposable.add(disposable)}))
+    }
+
+    private fun createListItem(product:BaseProduct, amount:Double){
+        product.productID?.let{ val item = ListItem(name = product.name, amount = amount, productId = it)
+            createListItemUseCase.create(item, BaseSingleObserver({},{disposable -> compositeDisposable.add(disposable)}))
+        }
+    }
+
+    private fun productExist(productName:String):BaseProduct? {
+        productList.value?.let {
+            for(item in it){
+                if(item.name == productName) return item
+            }
+        }
+        return null
     }
 }

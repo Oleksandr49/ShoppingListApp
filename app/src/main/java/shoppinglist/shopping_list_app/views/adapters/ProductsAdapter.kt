@@ -12,8 +12,8 @@ import shoppinglist.shoppinglistapp.R
 class ProductsAdapter: BaseAdapter<ProductViewHolder, BaseProduct, ProductAdapterCallback>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        LayoutInflater.from(parent.context).also {
-            return ProductViewHolder(it.inflate(R.layout.product_view_holder, parent, false)) }
+        val inflater = LayoutInflater.from(parent.context)
+        return ProductViewHolder(inflater.inflate(R.layout.s_l_position, parent, false))
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
@@ -21,12 +21,13 @@ class ProductsAdapter: BaseAdapter<ProductViewHolder, BaseProduct, ProductAdapte
     }
 
     override fun updateList(updatedList: List<BaseProduct>) {
-        DiffUtil.calculateDiff(ProductDiffUtillCallback(itemsList, updatedList)).also {itemsList = updatedList
-            it.dispatchUpdatesTo(this)}
+        val listUpdates = DiffUtil.calculateDiff(ProductDiffUtilCallback(itemsList, updatedList))
+        itemsList = updatedList
+        listUpdates.dispatchUpdatesTo(this)
     }
 }
 
-private class ProductDiffUtillCallback(oldList: List<BaseProduct>, newList: List<BaseProduct>):
+private class ProductDiffUtilCallback(oldList: List<BaseProduct>, newList: List<BaseProduct>):
         BaseDiffUtillCallback<BaseProduct>(oldList, newList) {
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =

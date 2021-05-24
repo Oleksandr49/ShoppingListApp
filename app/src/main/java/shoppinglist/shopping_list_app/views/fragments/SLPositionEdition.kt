@@ -32,23 +32,24 @@ class SLPositionEdition: Fragment() {
             .create().inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        SLPositionOperationsBinding.inflate(inflater, container, false).also { binding ->
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewBinding = SLPositionOperationsBinding.inflate(inflater, container, false)
+        val positionID = args.positionID
+        viewBinding?.let { binding ->
             viewModel.currentPosition.observe(viewLifecycleOwner,{position ->
                 binding.PositionName.setText(position.name)
                 binding.Amount.setText(position.amount.toString())
-                /*
                 binding.creationConfirmation.setOnClickListener {
-                    ListItem(id = args.positionID, name = binding.PositionName.text.toString(),
-                    amount = binding.Amount.text.toString().toDouble(), productId = 1L).also { viewModel.updatePosition(it) }
+                    val item = ListItem(id = positionID, name = binding.PositionName.text.toString(),
+                        amount = binding.Amount.text.toString().toDouble(), productId = 1L)
+                    viewModel.updatePosition(item)
                     SLPositionEditionDirections.backToSLFragment().also { findNavController().navigate(it) }
                 }
-
-                 */
             })
-            //viewModel.getPosition(args.positionID)
+            viewModel.getPosition(positionID)
             return binding.root
         }
+        return null
     }
 
     override fun onDestroyView() {
