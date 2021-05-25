@@ -24,5 +24,5 @@ interface CartDao: BaseDao<Cart> {
     fun getAllCartsWithItems(): Single<List<CartToCartItems>>
     @Transaction
     @Query("SELECT * FROM Carts WHERE cartId = :id")
-    fun getCartWithItems(id: Long): Single<List<CartToCartItems>>
+    fun getCartWithItems(id: Long): Single<CartToCartItems>
 }

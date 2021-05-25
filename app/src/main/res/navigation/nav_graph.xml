@@ -42,7 +42,11 @@
     <fragment
         android:id="@+id/shoppingHistoryFragment"
         android:name="shoppinglist.shopping_list_app.views.fragments.ShoppingHistoryFragment"
-        android:label="ShoppingHistoryFragment" />
+        android:label="ShoppingHistoryFragment" >
+        <action
+            android:id="@+id/go_to_details_fragment"
+            app:destination="@id/cartDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/shoppingStatisticsFragment"
         android:name="shoppinglist.shopping_list_app.views.fragments.ShoppingStatisticsFragment"
@@ -74,5 +78,14 @@
         <action
             android:id="@+id/back_to_SLFragment"
             app:destination="@id/SLFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartDetailsFragment"
+        android:name="shoppinglist.shopping_list_app.views.fragments.CartDetailsFragment"
+        android:label="CartDetailsFragment" >
+        <argument
+            android:name="cartID"
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
 </navigation>

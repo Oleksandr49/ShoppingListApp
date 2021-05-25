@@ -19,4 +19,8 @@ class CartRep @Inject constructor(val dao: CartDao) : BaseRepository<Cart>{
 
     override fun deleteAll() = dao.deleteAll()
 
+    fun getAllCartsWithItems() = dao.getAllCartsWithItems()
+
+    fun getCartWithItems(id: Long) = dao.getCartWithItems(id)
+
 }

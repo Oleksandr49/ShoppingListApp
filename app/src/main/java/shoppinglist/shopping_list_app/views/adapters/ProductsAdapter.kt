@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import shoppinglist.shopping_list_app.model.dataModels.BaseProduct
 import shoppinglist.shopping_list_app.views.base.BaseAdapter
 import shoppinglist.shopping_list_app.views.base.BaseDiffUtillCallback
+import shoppinglist.shopping_list_app.views.base.BaseViewCallBack
 import shoppinglist.shopping_list_app.views.viewHolders.ProductViewHolder
 import shoppinglist.shoppinglistapp.R
 
-class ProductsAdapter: BaseAdapter<ProductViewHolder, BaseProduct, ProductAdapterCallback>() {
+class ProductsAdapter: BaseAdapter<ProductViewHolder, BaseProduct, BaseViewCallBack>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val inflater = LayoutInflater.from(parent.context)

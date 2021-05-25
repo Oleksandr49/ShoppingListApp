@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import shoppinglist.shopping_list_app.model.dataModels.Cart
 import shoppinglist.shopping_list_app.model.dataModels.CartItem
 import shoppinglist.shopping_list_app.model.usecases.base.*
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -22,7 +23,8 @@ class CartFragmentViewModel @Inject constructor(private val readUseCase: ReadLis
     }
 
     private fun createCart(){
-        val cart = Cart(date = Date().toString())
+        val format = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
+        val cart = Cart(date = format.format(Date()))
         createUseCase.create(cart, BaseSingleObserver({cartId -> bindCurrentItemsToCart(cartId)},{disposable -> compositeDisposable.add(disposable)}))
     }
 
