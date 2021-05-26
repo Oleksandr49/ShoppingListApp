@@ -11,4 +11,9 @@
     <string name="confirm">Confirm</string>
     <string name="go_to_cart">go_to_cart</string>
     <string name="_0_00">0.00</string>
+    <string name="product_name">product_name</string>
+    <string name="l">L</string>
+    <string name="kg">KG</string>
+    <string name="pck">PCK</string>
+    <string name="itm">ITM</string>
 </resources>

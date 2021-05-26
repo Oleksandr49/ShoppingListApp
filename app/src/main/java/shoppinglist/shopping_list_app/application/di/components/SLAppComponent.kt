@@ -25,7 +25,8 @@ interface SLAppComponent {
     fun cartComponent(): CartComponent.Factory
     fun productsComponent(): ProductsComponent.Factory
     fun historyComponent(): HistoryComponent.Factory
-    fun carteDetailsComponent(): CartDetailsComponent.Factory
+    fun cartDetailsComponent(): CartDetailsComponent.Factory
+    fun productCreationComponent(): ProductCreationComponent.Factory
 }
 
 @Module(subcomponents = [SLComponent::class,
@@ -34,7 +35,8 @@ interface SLAppComponent {
     CartComponent::class,
     ProductsComponent::class,
     HistoryComponent::class,
-    CartDetailsComponent::class])
+    CartDetailsComponent::class,
+    ProductCreationComponent::class])
 object SubcomponentsModule
 
 @Module(includes = [ListItemUseCasesModule::class,

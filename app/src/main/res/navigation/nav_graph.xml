@@ -38,7 +38,11 @@
     <fragment
         android:id="@+id/productsListFragment"
         android:name="shoppinglist.shopping_list_app.views.fragments.ProductsListFragment"
-        android:label="ProductsListFragment" />
+        android:label="ProductsListFragment" >
+        <action
+            android:id="@+id/go_to_product_creation"
+            app:destination="@id/productCreationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/shoppingHistoryFragment"
         android:name="shoppinglist.shopping_list_app.views.fragments.ShoppingHistoryFragment"
@@ -87,5 +91,13 @@
             android:name="cartID"
             app:argType="long"
             android:defaultValue="0L" />
+    </fragment>
+    <fragment
+        android:id="@+id/productCreationFragment"
+        android:name="shoppinglist.shopping_list_app.views.fragments.ProductCreationFragment"
+        android:label="ProductCreationFragment" >
+        <action
+            android:id="@+id/back_to_product_list"
+            app:destination="@id/productsListFragment" />
     </fragment>
 </navigation>

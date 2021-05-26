@@ -18,7 +18,7 @@ class ProductsAdapter: BaseAdapter<ProductViewHolder, BaseProduct, BaseViewCallB
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        holder.productName.text = itemsList[position].name
+        holder.productName.text = itemsList[position].name + " ${itemsList[position].type}"
     }
 
     override fun updateList(updatedList: List<BaseProduct>) {

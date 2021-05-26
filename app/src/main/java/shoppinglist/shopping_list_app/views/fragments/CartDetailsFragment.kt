@@ -28,7 +28,7 @@ class CartDetailsFragment: BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity().application as SLApp).appComponent.carteDetailsComponent()
+        (requireActivity().application as SLApp).appComponent.cartDetailsComponent()
             .create().inject(this)
     }
 

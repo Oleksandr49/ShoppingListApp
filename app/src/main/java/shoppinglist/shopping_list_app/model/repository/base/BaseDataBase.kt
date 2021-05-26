@@ -8,7 +8,7 @@ import shoppinglist.shopping_list_app.model.repository.dao.CartItemDao
 import shoppinglist.shopping_list_app.model.repository.dao.ListItemDao
 import shoppinglist.shopping_list_app.model.repository.dao.ProductDao
 
-@Database(entities = [BaseItem::class, CartItem::class, BaseProduct::class, Cart::class, ListItem::class], version = 1, exportSchema = false)
+@Database(entities = [BaseItem::class, CartItem::class, BaseProduct::class, Cart::class, ListItem::class], version = 2, exportSchema = false)
 abstract class BaseDataBase: RoomDatabase() {
 
     abstract fun listItemDao(): ListItemDao

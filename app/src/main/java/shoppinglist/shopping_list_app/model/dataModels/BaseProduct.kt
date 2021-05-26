@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Products")
 open class BaseProduct(@PrimaryKey(autoGenerate = true) val productID:Long? = null,
                        @ColumnInfo(name = "Name") var name:String,
-                       @ColumnInfo(name = "AmountType") var type:Int? = null ) {
+                       @ColumnInfo(name = "AmountType") var type:String? = null ) {
 }

@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import shoppinglist.shopping_list_app.application.SLApp
 import shoppinglist.shopping_list_app.viewmodels.ProductsViewModel
 import shoppinglist.shopping_list_app.views.adapters.ProductsAdapter
+import shoppinglist.shopping_list_app.views.base.BaseFragment
 import shoppinglist.shopping_list_app.views.base.BaseItemDecoration
 import shoppinglist.shoppinglistapp.databinding.ProductsListFragmentBinding
 import javax.inject.Inject
 
-class ProductsListFragment: Fragment() {
+class ProductsListFragment: BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -32,6 +33,7 @@ class ProductsListFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = ProductsListFragmentBinding.inflate(inflater, container, false)
         viewBinding?.let {binding ->
+            binding.productsFAB.setOnClickListener{navigateTo(ProductsListFragmentDirections.goToProductCreation())}
             binding.productsRecView.adapter = getAdapter()
             binding.productsRecView.layoutManager = LinearLayoutManager(activity)
             binding.productsRecView.addItemDecoration(BaseItemDecoration())
@@ -41,9 +43,14 @@ class ProductsListFragment: Fragment() {
         return null
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateList()
+    }
+
     private fun getAdapter(): ProductsAdapter {
         val adapter = ProductsAdapter()
-        viewModel.currentList.observe(viewLifecycleOwner, {adapter.updateList(it)})
+        viewModel.currentList.observe(viewLifecycleOwner, {list -> adapter.updateList(list)})
         return adapter
     }
 }
